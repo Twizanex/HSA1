@@ -38,11 +38,13 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         self.do_GET()
 
     def do_GET(self):
+        content_type = 'text/plain'
+        content = 'success'
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
-            return
+
         elif self.path == '/jsmpg.js':
             content_type = 'application/javascript'
             content = self.server.jsmpg_content
@@ -56,44 +58,43 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             # send serial
             self.send_response(200)
             print('moving forward')
-            return
 
         elif self.path == '/backward':
             self.send_response(200)
             print('moving backward')
             # send serial
-            return
+
 
         elif self.path == '/turn-left':
             self.send_response(200)
             print('turn left')
             # send serial
-            return
+
         elif self.path == '/turn-right':
             self.send_response(200)
             print('turn right')
             # send serial
-            return
+
         elif self.path == '/camera-up':
             # send serial
             self.send_response(200)
             print('camera up')
-            return
+
         elif self.path == '/camera-down':
             self.send_response(200)
             print('camera down')
             # send serial
-            return
+
         elif self.path == '/camera-left':
             self.send_response(200)
             print('camera left')
             # send serial
-            return
+
         elif self.path == '/camera-right':
             self.send_response(200)
             print('camera right')
             # send serial
-            return
+
         else:
             self.send_error(404, 'File not found')
             return
@@ -106,8 +107,6 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         if self.command == 'GET':
             self.wfile.write(content)
 
-        else:
-            self.send_error(404, 'Command not found')
 
 class StreamingHttpServer(HTTPServer):
     def __init__(self):
