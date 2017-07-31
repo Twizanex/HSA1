@@ -65,44 +65,44 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.wfile.write(content)
     def do_POST(self):
         if self.path == '/forward':
-            // send serial
+            # send serial
             self.send_response(200)
             print('moving forward')
             return
         elif self.path == '/backward':
             self.send_response(200)
             print('moving backward')
-            // send serial
+            # send serial
             return
         elif self.path == '/turn-left':
             self.send_response(200)
             print('turn left')
-            // send serial
+            # send serial
             return
         elif self.path == '/turn-right':
             self.send_response(200)
             print('turn right')
-            // send serial
+            # send serial
             return
         elif self.path == '/camera-up':
-            // send serial
+            # send serial
             self.send_response(200)
             print('camera up')
             return
         elif self.path == '/camera-down':
             self.send_response(200)
             print('camera down')
-            // send serial
+            # send serial
             return
         elif self.path == '/camera-left':
             self.send_response(200)
             print('camera left')
-            // send serial
+            # send serial
             return
         elif self.path == '/camera-right':
             self.send_response(200)
             print('camera right')
-            // send serial
+            # send serial
             return
 
 class StreamingHttpServer(HTTPServer):
