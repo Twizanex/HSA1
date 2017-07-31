@@ -52,28 +52,18 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             content = tpl.safe_substitute(dict(
                 ADDRESS='%s:%d' % ("' + window.location.hostname +'", WS_PORT),
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
-        else:
-            self.send_error(404, 'File not found')
-            return
-        content = content.encode('utf-8')
-        self.send_response(200)
-        self.send_header('Content-Type', content_type)
-        self.send_header('Content-Length', len(content))
-        self.send_header('Last-Modified', self.date_time_string(time()))
-        self.end_headers()
-        if self.command == 'GET':
-            self.wfile.write(content)
-    def do_POST(self):
-        if self.path == '/forward':
+        elif self.path == '/forward':
             # send serial
             self.send_response(200)
             print('moving forward')
             return
+
         elif self.path == '/backward':
             self.send_response(200)
             print('moving backward')
             # send serial
             return
+
         elif self.path == '/turn-left':
             self.send_response(200)
             print('turn left')
@@ -104,6 +94,20 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             print('camera right')
             # send serial
             return
+        else:
+            self.send_error(404, 'File not found')
+            return
+        content = content.encode('utf-8')
+        self.send_response(200)
+        self.send_header('Content-Type', content_type)
+        self.send_header('Content-Length', len(content))
+        self.send_header('Last-Modified', self.date_time_string(time()))
+        self.end_headers()
+        if self.command == 'GET':
+            self.wfile.write(content)
+
+        else:
+            self.send_error(404, 'Command not found')
 
 class StreamingHttpServer(HTTPServer):
     def __init__(self):
