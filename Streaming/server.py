@@ -38,11 +38,13 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         self.do_GET()
 
     def do_GET(self):
+        content_type = 'text/plain'
+        content = 'success'
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
-            return
+
         elif self.path == '/jsmpg.js':
             content_type = 'application/javascript'
             content = self.server.jsmpg_content
@@ -52,6 +54,47 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             content = tpl.safe_substitute(dict(
                 ADDRESS='%s:%d' % ("' + window.location.hostname +'", WS_PORT),
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
+        elif self.path == '/forward':
+            # send serial
+            self.send_response(200)
+            print('moving forward')
+
+        elif self.path == '/backward':
+            self.send_response(200)
+            print('moving backward')
+            # send serial
+
+
+        elif self.path == '/turn-left':
+            self.send_response(200)
+            print('turn left')
+            # send serial
+
+        elif self.path == '/turn-right':
+            self.send_response(200)
+            print('turn right')
+            # send serial
+
+        elif self.path == '/camera-up':
+            # send serial
+            self.send_response(200)
+            print('camera up')
+
+        elif self.path == '/camera-down':
+            self.send_response(200)
+            print('camera down')
+            # send serial
+
+        elif self.path == '/camera-left':
+            self.send_response(200)
+            print('camera left')
+            # send serial
+
+        elif self.path == '/camera-right':
+            self.send_response(200)
+            print('camera right')
+            # send serial
+
         else:
             self.send_error(404, 'File not found')
             return
