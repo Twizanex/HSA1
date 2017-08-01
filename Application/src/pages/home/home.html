@@ -9,10 +9,38 @@
 
 <ion-content padding>
 
-  <button ion-button round>Up</button>
-  <button ion-button round>Up</button>
-  <button ion-button round>Up</button>
-  <button ion-button round>Up</button>
+<!--Left Pad-->
+  <ion-grid>
+<!--row1-->
+    <ion-row>
+      <ion-col col-1 offset-1>
+        <button ion-button icon-only>
+          <ion-icon name="arrow-round-up"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+<!--row2-->
+      <ion-row>
+      <ion-col col-1 offset-0>
+        <button ion-button icon-only>
+          <ion-icon name="arrow-round-back"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-1 offset-1>
+        <button ion-button icon-only>
+          <ion-icon name="arrow-round-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+<!--row3-->
+    <ion-row>
+      <ion-col col-5 offset-1>
+        <button ion-button icon-only>
+          <ion-icon name="arrow-round-down"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <canvas id="videoCanvas" width=100% ></canvas>
 </ion-content>
