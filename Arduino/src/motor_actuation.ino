@@ -9,11 +9,11 @@ int in1 = 9;
 int in2 = 8;
 // RIGHT PINS
 int enB = 11;
-int in3 = 7;
-int in4 = 6;
+int in3 = 13;
+int in4 = 12;
 // SERVO PINS
-int pan_pin = 4;
-int tilt_pin = 5;
+int pan_pin = 5;
+int tilt_pin = 6;
 
 int left_pins[3] = {in1, in2, enA};
 int right_pins[3] = {in3, in4, enB};
@@ -125,6 +125,4 @@ void loop()
       }
     }
   }
-  wheel_actuators.forward_backward_demo();
-  delay(1000);
 }
