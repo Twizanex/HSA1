@@ -10,19 +10,18 @@
 <ion-content padding>
 
 <canvas id="videoCanvas" width=100% ></canvas>
-<!--Left Pad-->
 
   <ion-grid>
 <!--row1-->
     <ion-row>
       <ion-col col-1 offset-1>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="forwardRequest()">
           <ion-icon name="arrow-round-up"></ion-icon>
         </button>
       </ion-col>
       <!--2nd Up Arrow  -->
       <ion-col offset-5>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="camUp()">
           <ion-icon name="arrow-round-up"></ion-icon>
         </button>
       </ion-col>
@@ -30,23 +29,23 @@
 <!--row2-->
       <ion-row>
       <ion-col col-1 offset-0>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="leftRequest()">
           <ion-icon name="arrow-round-back"></ion-icon>
         </button>
       </ion-col>
       <ion-col col-1 offset-1>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="rightRequest()">
           <ion-icon name="arrow-round-forward"></ion-icon>
         </button>
       </ion-col>
       <!--2nd side arrows-->
       <ion-col col-1 offset-3>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="camLeft()">
           <ion-icon name="arrow-round-back"></ion-icon>
         </button>
       </ion-col>
       <ion-col col-1 offset-1>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="camRight()">
           <ion-icon name="arrow-round-forward"></ion-icon>
         </button>
       </ion-col>
@@ -54,19 +53,17 @@
 <!--row3-->
     <ion-row>
       <ion-col col-5 offset-1>
-        <button ion-button large icon-only>
+        <button ion-button large icon-only (click)="backRequest()">
           <ion-icon name="arrow-round-down"></ion-icon>
         </button>
       </ion-col>
       <!--2nd Down Arrow-->
-      <ion-col col-5 offset-1>
+      <ion-col col-5 offset-1 (click)="camDown()">
         <button ion-button large icon-only>
           <ion-icon name="arrow-round-down"></ion-icon>
         </button>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 
 </ion-content>
