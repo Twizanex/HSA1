@@ -13,8 +13,8 @@ public:
   void forward_backward_demo();
 
 private:
-  int _left_pins[];
-  int _right_pins[];
+  int _left_pins[3];
+  int _right_pins[3];
   void _leftMotorForward(int power);
   void _leftMotorBackward(int power);
   void _leftMotorStop();

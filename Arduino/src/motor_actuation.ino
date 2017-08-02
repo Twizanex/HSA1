@@ -1,7 +1,6 @@
 #include <Atlasbuggy.h>
 #include <Motors.h>
 #include <Servo.h>
-#include <PanTiltController.h>
 
 // LEFT PINS
 int enA = 10;
@@ -9,16 +8,16 @@ int in1 = 9;
 int in2 = 8;
 // RIGHT PINS
 int enB = 11;
-int in3 = 7;
-int in4 = 6;
+int in3 = 13;
+int in4 = 12;
 // SERVO PINS
-int pan_pin = 4;
-int tilt_pin = 5;
+int pan_pin = 5;
+int tilt_pin = 6;
 
 int left_pins[3] = {in1, in2, enA};
 int right_pins[3] = {in3, in4, enB};
 
-int servo_pos[2] = {90, 90}
+int servo_pos[2] = {90, 90};
 
 Atlasbuggy robot("actuators");
 Motors wheel_actuators(left_pins, right_pins);
@@ -27,10 +26,9 @@ Servo tilt_servo;
 
 void incr_servo(bool servo)
 {
-  int pin;
+  int pos;
   if (!servo){
     // pan servo
-    pin = pan_pin;
     pos = servo_pos[0];
     pos += 5;
     if (pos > 180){
@@ -40,11 +38,10 @@ void incr_servo(bool servo)
   }
   else{
     // tilt servo
-    pin = tilt_pin;
     pos = servo_pos[1];
     pos += 5;
     if (pos > 180){
-      pos = 180);
+      pos = 180;
     }
     tilt_servo.write(pos);
   }
@@ -52,10 +49,9 @@ void incr_servo(bool servo)
 
 void decr_servo(bool servo)
 {
-  int pin;
+  int pos;
   if (!servo){
     // pan servo
-    pin = pan_pin;
     pos = servo_pos[0];
     pos -= 5;
     if (pos < 0){
@@ -65,11 +61,10 @@ void decr_servo(bool servo)
   }
   else{
     // tilt servo
-    pin = tilt_pin;
     pos = servo_pos[1];
     pos -= 5;
     if (pos < 0){
-      pos = 0);
+      pos = 0;
     }
     tilt_servo.write(pos);
   }
@@ -86,6 +81,7 @@ void setup()
  pan_servo.write(90);
  tilt_servo.write(90);
  delay(15);
+ Serial.begin(9600);
 }
 
 void loop()
@@ -93,7 +89,7 @@ void loop()
   while (robot.available()){
     int status = robot.readSerial();
     if (status == 0){
-      command = robot.getCommand();
+      String command = robot.getCommand();
       if (command.charAt(0) == 'r'){
         if (command.charAt(1) == 'f'){
           wheel_actuators.move_forward();
@@ -125,6 +121,4 @@ void loop()
       }
     }
   }
-  wheel_actuators.forward_backward_demo();
-  delay(1000);
 }

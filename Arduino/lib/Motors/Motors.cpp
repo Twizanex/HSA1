@@ -5,11 +5,13 @@ Motors::Motors(int left_pins[], int right_pins[])
 {
   // left_pins: in1, in2, enA
   // right_pins: in3, in4, enB
-  _left_pins = left_pins;
-  _right_pins = right_pins;
+  for(int i = 0; i < 3; i++){
+    _left_pins[i] = left_pins[i];
+    _right_pins[i] = right_pins[i];
+  }
 }
 
-Motors::begin()
+void Motors::begin()
 {
   // initialize pins as output
   for(int i = 0; i < 3; i++){
@@ -18,7 +20,7 @@ Motors::begin()
   }
 }
 
-Motors::_leftMotorForward(int power)
+void Motors::_leftMotorForward(int power)
 {
   // this function makes the left motor go forward
   // set left motor to forward
@@ -28,7 +30,7 @@ Motors::_leftMotorForward(int power)
   analogWrite(_left_pins[2], power);
 }
 
-Motors::_leftMotorBackward(int power)
+void Motors::_leftMotorBackward(int power)
 {
   // this function makes the left motor go backward
   // set left motor to backward
@@ -38,14 +40,14 @@ Motors::_leftMotorBackward(int power)
   analogWrite(_left_pins[2], power);
 }
 
-Motors::_leftMotorStop()
+void Motors::_leftMotorStop()
 {
   // this function stops the left motor
   digitalWrite(_left_pins[0], LOW);
   digitalWrite(_left_pins[1], LOW);
 }
 
-Motors::_rightMotorForward(int power)
+void Motors::_rightMotorForward(int power)
 {
   // this function makes the right motor go forward
   // set right motor to forward
@@ -55,7 +57,7 @@ Motors::_rightMotorForward(int power)
   analogWrite(_right_pins[2], power);
 }
 
-Motors::_rightMotorBackward(int power)
+void Motors::_rightMotorBackward(int power)
 {
   // this function makes the right motor go backward
   // set right motor to backward
@@ -65,21 +67,21 @@ Motors::_rightMotorBackward(int power)
   analogWrite(_right_pins[2], power);
 }
 
-Motors::_rightMotorStop()
+void Motors::_rightMotorStop()
 {
   // this function makes the right motor stop
   digitalWrite(_right_pins[0], LOW);
   digitalWrite(_right_pins[1], LOW);
 }
 
-Motors::robotForward(int power)
+void Motors::robotForward(int power)
 {
   // this function makes the robot move forward
   _leftMotorForward(power);
   _rightMotorForward(power);
 }
 
-Motors::robotBackward(int power)
+void Motors::robotBackward(int power)
 {
   // this function makes the robot move backward
   _leftMotorBackward(power);
@@ -87,22 +89,22 @@ Motors::robotBackward(int power)
 
 }
 
-Motors::robotStop(int left_power, int right_power)
+void Motors::robotStop(int left_power, int right_power)
 {
   while(left_power > 0 || right_power > 0){
     if (left_power > 0){
       left_power--;
     }
     if (right_power > 0){
-      left_power--;
+      right_power--;
     }
-    analogWrite(enA, left_speed);
-    analogWrite(enB, right_speed);
+    analogWrite(_left_pins[2], left_power);
+    analogWrite(_right_pins[2], right_power);
     delay(200);
   }
 }
 
-Motors::forward_backward_demo()
+void Motors::forward_backward_demo()
 {
   robotForward(200);
   delay(1000);
@@ -112,7 +114,7 @@ Motors::forward_backward_demo()
   delay(1000);
 }
 
-Motors::move_forward()
+void Motors::move_forward()
 {
   robotForward(200);
   delay(500);
@@ -120,7 +122,7 @@ Motors::move_forward()
   delay(500);
 }
 
-Motors::move_backward()
+void Motors::move_backward()
 {
   robotBackward(200);
   delay(500);
@@ -128,12 +130,12 @@ Motors::move_backward()
   delay(500);
 }
 
-Motors::move_left()
+void Motors::turn_left()
 {
   delay(500);
 }
 
-Motors::move_right()
+void Motors::turn_right()
 {
   delay(500);
 }
