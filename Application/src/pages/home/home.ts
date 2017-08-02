@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import * as jsmpeg from 'jsmpeg';
-// import WebSocket from 'ws';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'page-home',
@@ -9,8 +10,13 @@ import * as jsmpeg from 'jsmpeg';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  posts: any;
 
+  constructor(public navCtrl: NavController, public http: Http) {
+
+    this.http.get('https://www.reddit.com/r/me_irl/top/.json?limit=10&sort=hot').map(res => res.json()).subscribe(data => {
+      this.posts = data.data.children;
+    });
   }
 
   ngAfterViewInit() {
