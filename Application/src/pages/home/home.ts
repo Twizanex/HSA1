@@ -1,23 +1,28 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 import * as jsmpeg from 'jsmpeg';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+
+
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-films',
+  templateUrl: 'home.html',
 })
 export class HomePage {
-
-  posts: any;
+  posts: Observable<any>;
 
   constructor(public navCtrl: NavController, public http: Http) {
-
-    this.http.get('https://www.reddit.com/r/me_irl/top/.json?limit=10&sort=hot').map(res => res.json()).subscribe(data => {
-      this.posts = data.data.children;
+    this.posts = this.http.get('http://68.230.95.141:8082/forward');
+    this.posts
+    .map(res => res.json())
+    .subscribe(data => {
+      console.log('my data: ', data);
     });
   }
+
 
   ngAfterViewInit() {
     var canvas = <HTMLCanvasElement>document.getElementById('videoCanvas');
@@ -26,5 +31,5 @@ export class HomePage {
     ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
     var client = new WebSocket( 'ws://68.230.95.141:8084/' );
     var player = new jsmpeg(client, {canvas:canvas});
-  }
+}
 }
