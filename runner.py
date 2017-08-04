@@ -96,13 +96,13 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             # send serial
 
         elif self.path == '/camera-left':
-            self.security_bot.actuators.camera_left()
+            security_bot.actuators.camera_left()
             self.send_response(200)
             print('camera left')
             # send serial
 
         elif self.path == '/camera-right':
-            self.security_bot.actuators.camera_right()
+            security_bot.actuators.camera_right()
             self.send_response(200)
             print('camera right')
             # send serial
@@ -227,5 +227,5 @@ def start_server():
             websocket_thread.join()
 
 if __name__ == '__main__':
-    start_server()
     robot.run(security_bot)
+    start_server()
