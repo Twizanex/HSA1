@@ -1,5 +1,4 @@
 import cv2
-import asyncio
 import numpy as np
 
 from .base import BaseViewer
@@ -18,15 +17,15 @@ class CameraViewer(BaseViewer):
         self.frame = None
 
         if enable_trackbar:
-            required_attributes = "width", "height", "num_frames", "set_pause", \
+            self.capture_required_attributes = "width", "height", "num_frames", "set_pause", \
                                   "get_pause", "current_frame_num", "set_frame"
         else:
-            required_attributes = None
+            self.capture_required_attributes = None
 
         self.capture_tag = "capture"
         self.capture = None
         self.capture_feed = None
-        self.require_subscription(self.capture_tag, Update, required_attributes=required_attributes)
+        self.require_subscription(self.capture_tag, Update, required_attributes=self.capture_required_attributes)
 
         self.trackbar_enabled = enable_trackbar
         self.draw_while_paused = draw_while_paused
@@ -42,6 +41,10 @@ class CameraViewer(BaseViewer):
         self.initialize_trackbar()
         blank = np.zeros((300, 300))
         cv2.imshow(self.name, blank)
+        self.viewer_started()
+
+    def viewer_started(self):
+        pass
 
     def initialize_trackbar(self):
         if self.trackbar_enabled:

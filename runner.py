@@ -17,7 +17,7 @@ from ws4py.websocket import WebSocket
 from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
 
-from .actuator import SecurityBot
+from Actuators import SecurityBot
 from atlasbuggy import Robot
 
 ###########################################
@@ -37,9 +37,9 @@ JSMPEG_HEADER = Struct('>4sHH')
 class StreamingHttpHandler(BaseHTTPRequestHandler):
     def __init__(self):
         super(StreamingHttpHandler, self).__init__()
-        robot = Robot()
+        self.robot = Robot()
         self.security_bot = SecurityBot()
-        robot.run(self.security_bot)
+        self.robot.run(self.security_bot)
 
     def do_HEAD(self):
         self.do_GET()
@@ -88,7 +88,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         elif self.path == '/camera-up':
             # send serial
             self.send_response(200)
-            self.security_bot.actuators.camera_up();
+            self.security_bot.actuators.camera_up()
             print('camera up')
 
         elif self.path == '/camera-down':
@@ -123,7 +123,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
 
 
 class StreamingHttpServer(HTTPServer):
-    def __init__(self, actuators):
+    def __init__(self):
         super(StreamingHttpServer, self).__init__(
                 ('', HTTP_PORT), StreamingHttpHandler)
         with io.open('index.html', 'r') as f:
