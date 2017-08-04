@@ -14,7 +14,7 @@ The head of SecurityBot is a Raspberry Pi 3. This Raspberry Pi 3 both hosts a HT
 
 The mobile application uses Ionic Framework for quick prototyping, ease of use, and great compatibility with our server. The Arduino code was uploaded using [PlatformIO](http://platformio.org/), allowing us to utilize external libraries easily, including the low-level [Atlasbuggy](https://github.com/AtlasBuggy/AtlasbuggyLowLevel/tree/master/Arduino/libraries/Atlasbuggy) library. This Arduino library allows us to easily connect with the Raspberry Pi 3, which utilizes the main [Atlasbuggy](https://github.com/Atlasbuggy/atlasbuggy) library.
 
-The server is based off waveform80's wonderful [pistreaming](https://github.com/waveform80/pistreaming) library.
+The server is based off waveform80's wonderful [pistreaming](https://github.com/waveform80/pistreaming) repository.
 
 ## Installation
 
