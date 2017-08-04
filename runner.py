@@ -33,14 +33,10 @@ JSMPEG_MAGIC = b'jsmp'
 JSMPEG_HEADER = Struct('>4sHH')
 ###########################################
 
+robot = Robot()
+security_bot = SecurityBot()
 
 class StreamingHttpHandler(BaseHTTPRequestHandler):
-    def __init__(self):
-        super(StreamingHttpHandler, self).__init__()
-        self.robot = Robot()
-        self.security_bot = SecurityBot()
-        self.robot.run(self.security_bot)
-
     def do_HEAD(self):
         self.do_GET()
 
@@ -55,57 +51,59 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         elif self.path == '/jsmpg.js':
             content_type = 'application/javascript'
             content = self.server.jsmpg_content
+
         elif self.path == '/index.html':
             content_type = 'text/html; charset=utf-8'
             tpl = Template(self.server.index_template)
             content = tpl.safe_substitute(dict(
                 ADDRESS='%s:%d' % ("' + window.location.hostname +'", WS_PORT),
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
+
         elif self.path == '/forward':
             # send serial
+            security_bot.actuators.robot_forward()
             self.send_response(200)
-            self.security_bot.actuators.robot_forward()
             print('moving forward')
 
         elif self.path == '/backward':
+            security_bot.actuators.robot_backward()
             self.send_response(200)
-            self.security_bot.actuators.robot_backward()
             print('moving backward')
             # send serial
 
         elif self.path == '/turn-left':
+            security_bot.actuators.robot_left()
             self.send_response(200)
-            self.security_bot.actuators.robot_left()
             print('turn left')
             # send serial
 
         elif self.path == '/turn-right':
+            security_bot.actuators.robot_right()
             self.send_response(200)
-            self.security_bot.actuators.robot_right()
             print('turn right')
             # send serial
 
         elif self.path == '/camera-up':
             # send serial
+            security_bot.actuators.camera_up()
             self.send_response(200)
-            self.security_bot.actuators.camera_up()
             print('camera up')
 
         elif self.path == '/camera-down':
+            security_bot.actuators.camera_down()
             self.send_response(200)
-            self.security_bot.actuators.camera_down()
             print('camera down')
             # send serial
 
         elif self.path == '/camera-left':
-            self.send_response(200)
             self.security_bot.actuators.camera_left()
+            self.send_response(200)
             print('camera left')
             # send serial
 
         elif self.path == '/camera-right':
-            self.send_response(200)
             self.security_bot.actuators.camera_right()
+            self.send_response(200)
             print('camera right')
             # send serial
 
@@ -230,3 +228,4 @@ def start_server():
 
 if __name__ == '__main__':
     start_server()
+    robot.run(security_bot)
