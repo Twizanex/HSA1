@@ -1,3 +1,16 @@
 page-list {
 
 }
+img {
+  float: left;
+    margin: 0 20px 20px 0;
+    width: 150px;
+    height: 150px;
+}
+p {
+    text-align: justify;
+    text-indent: 2em;
+}
+img.wrap {
+  float: right;
+}
