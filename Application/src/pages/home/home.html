@@ -12,8 +12,17 @@
 <canvas id="videoCanvas" width="384" height ="288" style="border:1px solid #000000;"></canvas>
 
   <ion-grid>
+    <ion-row offset-1>
+      <ion-col>
+        <ion-badge color="secondary">Movement</ion-badge>
+      </ion-col>
+      <ion-col offset-1>
+        <ion-badge color="secondary">Camera</ion-badge>
+      </ion-col>
+    </ion-row>
+
 <!--row1-->
-    <ion-row>
+    <ion-row offset-1>
       <ion-col col-1 offset-1>
         <button ion-button  icon-only (click)="forwardRequest()">
           <ion-icon name="arrow-round-up"></ion-icon>
@@ -27,7 +36,7 @@
       </ion-col>
     </ion-row>
 <!--row2-->
-      <ion-row>
+      <ion-row offset-1>
       <ion-col col-1 offset-0>
         <button ion-button  icon-only (click)="leftRequest()">
           <ion-icon name="arrow-round-back"></ion-icon>
@@ -51,7 +60,7 @@
       </ion-col>
     </ion-row>
 <!--row3-->
-    <ion-row>
+    <ion-row offset-1>
       <ion-col col-5 offset-1>
         <button ion-button  icon-only (click)="backRequest()">
           <ion-icon name="arrow-round-down"></ion-icon>
