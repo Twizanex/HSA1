@@ -1,95 +1,52 @@
 #include <Atlasbuggy.h>
 #include <Motors.h>
-#include <Servo.h>
+#include <PanTiltController.h>
 
-// LEFT PINS
+// LEFT MOTOR PINS
 int enA = 10;
 int in1 = 9;
 int in2 = 8;
-// RIGHT PINS
+// RIGHT MOTOR PINS
 int enB = 11;
 int in3 = 13;
 int in4 = 12;
 // SERVO PINS
-int pan_pin = 5;
-int tilt_pin = 6;
+int pan_pin = A0;
+int tilt_pin = A1;
 
 int left_pins[3] = {in1, in2, enA};
 int right_pins[3] = {in3, in4, enB};
 
-int servo_pos[2] = {90, 90};
-
 Atlasbuggy robot("actuators");
 Motors wheel_actuators(left_pins, right_pins);
-Servo pan_servo;
-Servo tilt_servo;
+PanTiltController camera_servos(pan_pin, tilt_pin);
 
-void incr_servo(bool servo)
-{
-  int pos;
-  if (!servo){
-    // pan servo
-    pos = servo_pos[0];
-    pos += 5;
-    if (pos > 180){
-      pos = 180;
-    }
-    pan_servo.write(pos);
-  }
-  else{
-    // tilt servo
-    pos = servo_pos[1];
-    pos += 5;
-    if (pos > 180){
-      pos = 180;
-    }
-    tilt_servo.write(pos);
-  }
-}
-
-void decr_servo(bool servo)
-{
-  int pos;
-  if (!servo){
-    // pan servo
-    pos = servo_pos[0];
-    pos -= 5;
-    if (pos < 0){
-      pos = 0;
-    }
-    pan_servo.write(pos);
-  }
-  else{
-    // tilt servo
-    pos = servo_pos[1];
-    pos -= 5;
-    if (pos < 0){
-      pos = 0;
-    }
-    tilt_servo.write(pos);
-  }
-}
+uint32_t timer = millis();
 
 void setup()
 {
+ // initialize robot and wheel actuators
+ // wheel_actuators.begin();
  robot.begin();
- wheel_actuators.begin();
- // initilaize servos
- pan_servo.attach(pan_pin);
- tilt_servo.attach(tilt_pin);
- // center servos
- pan_servo.write(90);
- tilt_servo.write(90);
- delay(15);
- Serial.begin(9600);
+ camera_servos.begin();
 }
 
 void loop()
 {
+  if (!robot.isPaused()){
+    if (timer > millis())  timer = millis();  // reset the timer if there is overflow
+      // if ((millis() - timer) > 500) {  // every 0.5 seconds, print the current time in milliseconds
+      //   Serial.print(millis());
+      //   Serial.print('\n');
+      // }
+  }
+
   while (robot.available()){
     int status = robot.readSerial();
     if (status == 0){
       String command = robot.getCommand();
+      Serial.print(command);
+      Serial.print('\n');
       if (command.charAt(0) == 'r'){
         if (command.charAt(1) == 'f'){
           wheel_actuators.move_forward();
@@ -107,17 +64,18 @@ void loop()
 
       else if (command.charAt(0) == 'c'){
         if (command.charAt(1) == 'u'){
-          incr_servo(true);
+          camera_servos.tilt_up();
         }
         else if (command.charAt(1) == 'd'){
-          decr_servo(true);
+          camera_servos.tilt_down();
         }
         else if (command.charAt(1) == 'l'){
-          incr_servo(false);
+          camera_servos.pan_left();
         }
         else if (command.charAt(1) == 'r'){
-          decr_servo(false);
+          camera_servos.pan_right();
         }
+        camera_servos.detach_servos();
       }
     }
   }

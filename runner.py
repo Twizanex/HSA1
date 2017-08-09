@@ -17,11 +17,12 @@ from ws4py.websocket import WebSocket
 from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
 
+from Actuators import SecurityBot
+from atlasbuggy import Robot
+
 ###########################################
 # CONFIGURATION
-#WIDTH = 640
 WIDTH = 384
-#HEIGHT = 480
 HEIGHT = 288
 FRAMERATE = 24
 HTTP_PORT = 8082
@@ -32,6 +33,8 @@ JSMPEG_MAGIC = b'jsmp'
 JSMPEG_HEADER = Struct('>4sHH')
 ###########################################
 
+robot = Robot()
+security_bot = SecurityBot()
 
 class StreamingHttpHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
@@ -48,49 +51,58 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         elif self.path == '/jsmpg.js':
             content_type = 'application/javascript'
             content = self.server.jsmpg_content
+
         elif self.path == '/index.html':
             content_type = 'text/html; charset=utf-8'
             tpl = Template(self.server.index_template)
             content = tpl.safe_substitute(dict(
                 ADDRESS='%s:%d' % ("' + window.location.hostname +'", WS_PORT),
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
+
         elif self.path == '/forward':
             # send serial
+            security_bot.actuators.robot_forward()
             self.send_response(200)
             print('moving forward')
 
         elif self.path == '/backward':
+            security_bot.actuators.robot_backward()
             self.send_response(200)
             print('moving backward')
             # send serial
 
-
         elif self.path == '/turn-left':
+            security_bot.actuators.robot_left()
             self.send_response(200)
             print('turn left')
             # send serial
 
         elif self.path == '/turn-right':
+            security_bot.actuators.robot_right()
             self.send_response(200)
             print('turn right')
             # send serial
 
         elif self.path == '/camera-up':
             # send serial
+            security_bot.actuators.camera_up()
             self.send_response(200)
             print('camera up')
 
         elif self.path == '/camera-down':
+            security_bot.actuators.camera_down()
             self.send_response(200)
             print('camera down')
             # send serial
 
         elif self.path == '/camera-left':
+            security_bot.actuators.camera_left()
             self.send_response(200)
             print('camera left')
             # send serial
 
         elif self.path == '/camera-right':
+            security_bot.actuators.camera_right()
             self.send_response(200)
             print('camera right')
             # send serial
@@ -167,7 +179,7 @@ class BroadcastThread(Thread):
             self.converter.stdout.close()
 
 
-def main():
+def start_server():
     print('Initializing camera')
     with picamera.PiCamera() as camera:
         camera.resolution = (WIDTH, HEIGHT)
@@ -214,6 +226,6 @@ def main():
             print('Waiting for websockets thread to finish')
             websocket_thread.join()
 
-
 if __name__ == '__main__':
-    main()
+    robot.run(security_bot)
+    start_server()
