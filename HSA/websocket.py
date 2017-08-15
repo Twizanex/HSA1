@@ -73,4 +73,3 @@ class BroadcastOutput:
         print('Waiting for background conversion process to exit')
         self.converter.stdin.close()
         self.converter.wait()
-
