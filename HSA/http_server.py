@@ -1,4 +1,5 @@
 import io
+from time import time, sleep
 from string import Template
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
@@ -13,33 +14,34 @@ COLOR = u'#444'
 BGCOLOR = u'#333'
 ###########################################
 
+post_func = None
+
 class HSAServer(AsyncStream):
     def __init__(self):
-        super(HSAWebsite, self).__init__()
-        self.http_server = StreamingHttpServer(self.post)
+        super(HSAServer, self).__init__()
+        global post_func 
+        post_func = self.post
+        self.http_server = StreamingHttpServer()
 
     async def run(self):
-        self.logger.post("Starting HTTP Server on port {}".format(HTTP_PORT))
+        print("Starting HTTP Server on port {}".format(HTTP_PORT))
         self.http_server.serve_forever()
 
 class StreamingHttpServer(HTTPServer):
-    def __init__(self, post_func):
+    def __init__(self):
         super(StreamingHttpServer, self).__init__(
-                ('', HTTP_PORT), StreamingHttpHandler(post_func))
+                ('', HTTP_PORT), StreamingHttpHandler)
         with io.open('index.html', 'r') as f:
             self.index_template = f.read()
         with io.open('jsmpg.js', 'r') as f:
             self.jsmpg_content = f.read()
 
 class StreamingHttpHandler(BaseHTTPRequestHandler):
-    def __init__(self, post_func):
-        self.post_func = post_func
-        super(StreamingHttpHandler, self).__init__()
-
     def do_HEAD(self):
         self.do_GET()
 
     def do_GET(self):
+        global post_func
         content_type = 'text/plain'
         content = 'success'
         if self.path == '/':
@@ -59,42 +61,42 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
 
         elif self.path == '/forward':
-            self.post_func('forward')
+            await post_func('forward')
             self.send_response(200)
             print('SERVER: moving forward')
 
         elif self.path == '/backward':
-            self.post_func('backward')
+            await post_func('backward')
             self.send_response(200)
             print('SERVER: moving backward')
 
         elif self.path == '/turn-left':
-            self.post_func('turn-left')
+            await post_func('turn-left')
             self.send_response(200)
             print('SERVER: turn left')
 
         elif self.path == '/turn-right':
-            self.post_func('turn-right')
+            await post_func('turn-right')
             self.send_response(200)
             print('SERVER: turn right')
 
         elif self.path == '/camera-up':
-            self.post_func('camera-up')
+            await post_func('camera-up')
             self.send_response(200)
             print('SERVER: camera up')
 
         elif self.path == '/camera-down':
-            self.post_func('camera-down')
+            await post_func('camera-down')
             self.send_response(200)
             print('SERVER: camera down')
 
         elif self.path == '/camera-left':
-            self.post_func('camera-left')
+            await post_func('camera-left')
             self.send_response(200)
             print('SERVER: camera left')
 
         elif self.path == '/camera-right':
-            self.post_func('camera-right')
+            await post_func('camera-right')
             self.send_response(200)
             print('SERVER: camera right')
 

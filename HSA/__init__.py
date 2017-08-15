@@ -19,9 +19,10 @@ class SecurityBot(SerialStream):
         self.server_feed = subscriptions[self.server_tag].get_feed()
 
     def serial_update(self):
-        while self.running():
+        while self.is_running():
             if not self.server_feed.empty():
                 message = self.server_feed.get()
+                print(message)
                 if message == 'forward':
                     self.actuators.robot_forward()
                 elif message == 'backward':

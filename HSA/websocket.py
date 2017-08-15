@@ -1,5 +1,9 @@
 import picamera
+import io
+import os
 from time import sleep
+from struct import Struct
+from subprocess import Popen, PIPE
 from wsgiref.simple_server import make_server
 from ws4py.websocket import WebSocket
 from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
@@ -27,16 +31,16 @@ class HSAWebSocket(AsyncStream):
         self.camera.framerate = FRAMERATE
         super(HSAWebSocket, self).__init__()
 
-        self.logger.post("Initializing Websocket on some port")
+        print("Initializing Websocket on some port")
         self.websocket_server = make_server(
             '', WS_PORT,
             server_class=WSGIServer,
             handler_class=WebSocketWSGIRequestHandler,
             app=WebSocketWSGIApplication(handler_cls=StreamingWebSocket)
         )
-        websocket_server.initialize_websockets_manager()
-        self.output = BroadcastOutput(camera)
-        self.camera.start_recording(output, 'yuv')
+        self.websocket_server.initialize_websockets_manager()
+        self.output = BroadcastOutput(self.camera)
+        self.camera.start_recording(self.output, 'yuv')
         sleep(1)
 
     async def run(self):
@@ -47,9 +51,9 @@ class HSAWebSocket(AsyncStream):
 
 class StreamingWebSocket(WebSocket):
     def opened(self):
-        self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT)
+        self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT))
 
-class BroadcastOutput:
+class BroadcastOutput(object):
     def __init__(self, camera):
         print('Spawning background conversion process')
         self.converter = Popen([
