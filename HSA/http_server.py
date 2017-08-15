@@ -1,9 +1,10 @@
 import io
+import asyncio
 from time import time, sleep
 from string import Template
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-from atlasbuggy import AsyncStream
+from atlasbuggy import ThreadedStream
 
 ###########################################
 # CONFIGURATION
@@ -15,15 +16,18 @@ BGCOLOR = u'#333'
 ###########################################
 
 post_func = None
+actuators = None
 
-class HSAServer(AsyncStream):
-    def __init__(self):
+class HSAServer(ThreadedStream):
+    def __init__(self, SecurityBot):
         super(HSAServer, self).__init__()
         global post_func 
+        global actuators
         post_func = self.post
+        actuators = SecurityBot.actuators
         self.http_server = StreamingHttpServer()
 
-    async def run(self):
+    def run(self):
         print("Starting HTTP Server on port {}".format(HTTP_PORT))
         self.http_server.serve_forever()
 
@@ -41,7 +45,6 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         self.do_GET()
 
     def do_GET(self):
-        global post_func
         content_type = 'text/plain'
         content = 'success'
         if self.path == '/':
@@ -61,42 +64,43 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
 
         elif self.path == '/forward':
-            await post_func('forward')
+            post_func('forward')
             self.send_response(200)
             print('SERVER: moving forward')
 
         elif self.path == '/backward':
-            await post_func('backward')
+            post_func('backward')
             self.send_response(200)
             print('SERVER: moving backward')
 
         elif self.path == '/turn-left':
-            await post_func('turn-left')
+            post_func('turn-left')
             self.send_response(200)
             print('SERVER: turn left')
 
         elif self.path == '/turn-right':
-            await post_func('turn-right')
+            post_func('turn-right')
             self.send_response(200)
             print('SERVER: turn right')
 
         elif self.path == '/camera-up':
-            await post_func('camera-up')
+            #post_func('camera-up')
+            actuators.camera_up()
             self.send_response(200)
             print('SERVER: camera up')
 
         elif self.path == '/camera-down':
-            await post_func('camera-down')
+            actuators.camera_down()
             self.send_response(200)
             print('SERVER: camera down')
 
         elif self.path == '/camera-left':
-            await post_func('camera-left')
+            actuators.camera_left()
             self.send_response(200)
             print('SERVER: camera left')
 
         elif self.path == '/camera-right':
-            await post_func('camera-right')
+            actuators.camera_right()
             self.send_response(200)
             print('SERVER: camera right')
 

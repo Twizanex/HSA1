@@ -23,6 +23,7 @@ class SecurityBot(SerialStream):
             if not self.server_feed.empty():
                 message = self.server_feed.get()
                 print(message)
+                print("IT IS BEING CALLED HERE")
                 if message == 'forward':
                     self.actuators.robot_forward()
                 elif message == 'backward':

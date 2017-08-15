@@ -9,7 +9,7 @@ from ws4py.websocket import WebSocket
 from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
 
-from atlasbuggy import AsyncStream
+from atlasbuggy import ThreadedStream
 
 #####################################
 # CONFIGURATION
@@ -24,7 +24,7 @@ JSMPEG_MAGIC = b'jsmp'
 JSMPEG_HEADER = Struct('>4sHH')
 #####################################
 
-class HSAWebSocket(AsyncStream):
+class HSAWebSocket(ThreadedStream):
     def __init__(self):
         self.camera = picamera.PiCamera()
         self.camera.resolution = (WIDTH, HEIGHT)
@@ -43,8 +43,9 @@ class HSAWebSocket(AsyncStream):
         self.camera.start_recording(self.output, 'yuv')
         sleep(1)
 
-    async def run(self):
+    def run(self):
         self.websocket_server.serve_forever()
+        print("running websocket server FOREVER")
 
     def stop(self):
         self.camera.stop_recording()

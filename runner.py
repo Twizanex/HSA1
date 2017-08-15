@@ -5,7 +5,7 @@ from HSA import SecurityBot, HSAServer, HSAWebSocket, HSABroadcast
 robot = Robot()
 
 securitybot = SecurityBot()
-server = HSAServer()
+server = HSAServer(securitybot)
 websocket = HSAWebSocket()
 broadcast = HSABroadcast(websocket)
 
