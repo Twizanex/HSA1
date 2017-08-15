@@ -59,42 +59,42 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR, BGCOLOR=BGCOLOR))
 
         elif self.path == '/forward':
-            await self.post_func('forward')
+            self.post_func('forward')
             self.send_response(200)
             print('SERVER: moving forward')
 
         elif self.path == '/backward':
-            await self.post_func('backward')
+            self.post_func('backward')
             self.send_response(200)
             print('SERVER: moving backward')
 
         elif self.path == '/turn-left':
-            await self.post_func('turn-left')
+            self.post_func('turn-left')
             self.send_response(200)
             print('SERVER: turn left')
 
         elif self.path == '/turn-right':
-            await self.post_func('turn-right')
+            self.post_func('turn-right')
             self.send_response(200)
             print('SERVER: turn right')
 
         elif self.path == '/camera-up':
-            await self.post_func('camera-up')
+            self.post_func('camera-up')
             self.send_response(200)
             print('SERVER: camera up')
 
         elif self.path == '/camera-down':
-            await self.post_func('camera-down')
+            self.post_func('camera-down')
             self.send_response(200)
             print('SERVER: camera down')
 
         elif self.path == '/camera-left':
-            await self.post_func('camera-left')
+            self.post_func('camera-left')
             self.send_response(200)
             print('SERVER: camera left')
 
         elif self.path == '/camera-right':
-            await self.post_func('camera-right')
+            self.post_func('camera-right')
             self.send_response(200)
             print('SERVER: camera right')
 

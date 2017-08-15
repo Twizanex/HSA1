@@ -1,0 +1,2 @@
+[Robot @ robot.py:100][DEBUG] 2017-08-09 22:12:10,555: Logging to: logs/2017_Aug_09/22;12;10.log
+[Robot @ robot.py:57][DEBUG] 2017-08-09 22:12:10,557: logger initialized: file_name: 22;12;10.log, directory: logs/2017_Aug_09, write: True, log_level: 50

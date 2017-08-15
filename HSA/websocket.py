@@ -32,7 +32,7 @@ class HSAWebSocket(AsyncStream):
             '', WS_PORT,
             server_class=WSGIServer,
             handler_class=WebSocketWSGIRequestHandler,
-            app=WebSocketWSGIApplication(handler_cls=StreamingWebSocket))
+            app=WebSocketWSGIApplication(handler_cls=StreamingWebSocket)
         )
         websocket_server.initialize_websockets_manager()
         self.output = BroadcastOutput(camera)
@@ -49,7 +49,7 @@ class StreamingWebSocket(WebSocket):
     def opened(self):
         self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT)
 
-class BroadcastOutput(object):
+class BroadcastOutput:
     def __init__(self, camera):
         print('Spawning background conversion process')
         self.converter = Popen([
@@ -73,3 +73,4 @@ class BroadcastOutput(object):
         print('Waiting for background conversion process to exit')
         self.converter.stdin.close()
         self.converter.wait()
+
