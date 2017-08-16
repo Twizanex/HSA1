@@ -1,16 +1,24 @@
 from atlasbuggy.serial import SerialObject
 
 class Actuators(SerialObject):
-    def __init__(self):
+    def __init__(self, enabled=True):
         super(Actuators, self).__init__('actuators')
+    
+    def receive_first(self, packet):
+        pass
+
+    def receive(self, timestamp, packet):
+        pass
 
     def camera_up(self):
         print("CAMERA UP BOSS")
-        self.send('cu')
+        command = "cu"
+        self.send(command)
 
     def camera_down(self):
         print("CAMERA DOWN BOSS")
-        self.send('cd')
+        command = "cd"        
+        self.send(command)
 
     def camera_left(self):
         print("CAMERA LEFT BOSS")
