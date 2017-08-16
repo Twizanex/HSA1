@@ -45,10 +45,12 @@ class HSAWebSocket(ThreadedStream):
 
     def run(self):
         self.websocket_server.serve_forever()
-        print("running websocket server FOREVER")
+        print("running websocket server FOREVER")  # Ben - this will never print
 
     def stop(self):
         self.camera.stop_recording()
+        # Ben - picamera needs to be shutdown. I use the with statement. You'll need to find the method
+        # that exits the picamera since you have a blocking method in your run
 
 class StreamingWebSocket(WebSocket):
     def opened(self):
