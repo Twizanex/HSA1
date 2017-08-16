@@ -19,6 +19,10 @@ class SecurityBot(SerialStream):
         self.server_feed = subscriptions[self.server_tag].get_feed()
 
     def serial_update(self):
+        # Ben - this is your issue. SerialStream is an asynchronous stream
+        # self.server_feed.get() is a coroutine and won't return a message
+        # you'll need to move this stuff into self.update() and call await self.server_feed.get()
+
         while self.is_running():
             if not self.server_feed.empty():
                 message = self.server_feed.get()
@@ -41,3 +45,10 @@ class SecurityBot(SerialStream):
                 elif message == 'camera-right':
                     self.actuators.camera_right()
                 self.server_feed.task_done()
+
+    # ---- your bug fix -----
+    async def update(self):
+        if not self.server_feed.empty():
+            message = await self.server_feed.get()
+            # ...
+            self.server_feed.task_done()

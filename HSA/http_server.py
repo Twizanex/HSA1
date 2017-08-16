@@ -23,7 +23,7 @@ class HSAServer(ThreadedStream):
         super(HSAServer, self).__init__()
         global post_func 
         global actuators
-        post_func = self.post
+        post_func = self.post  # Ben - NONO, bad feels, don't assign class methods or variables to globals. Avoid globals
         actuators = SecurityBot.actuators
         self.http_server = StreamingHttpServer()
 

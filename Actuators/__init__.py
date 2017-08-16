@@ -1,5 +1,6 @@
 from atlasbuggy.serial import SerialStream, SerialObject
 
+# Ben - I recommend just moving this to the HSA module since this is the only file in this module
 class Actuators(SerialObject):
     def __init__(self):
         super(Actuators, self).__init__('actuators')
