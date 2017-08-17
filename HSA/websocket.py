@@ -8,6 +8,7 @@ from wsgiref.simple_server import make_server
 from ws4py.websocket import WebSocket
 from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
+from threading import Thread
 
 from atlasbuggy import ThreadedStream
 
@@ -26,10 +27,11 @@ JSMPEG_HEADER = Struct('>4sHH')
 
 class HSAWebSocket(ThreadedStream):
     def __init__(self):
+        super(HSAWebSocket, self).__init__()
         self.camera = picamera.PiCamera()
         self.camera.resolution = (WIDTH, HEIGHT)
         self.camera.framerate = FRAMERATE
-        super(HSAWebSocket, self).__init__()
+        sleep(1)
 
         print("Initializing Websocket on some port")
         self.websocket_server = make_server(
@@ -41,19 +43,27 @@ class HSAWebSocket(ThreadedStream):
         self.websocket_server.initialize_websockets_manager()
         self.output = BroadcastOutput(self.camera)
         self.camera.start_recording(self.output, 'yuv')
-        sleep(1)
+        self.broadcast_thread = BroadcastThread(self.output.converter, self.websocket_server)
+        self.websocket_thread = Thread(target=self.websocket_server.serve_forever)
+        self.websocket_thread.start()
+        self.broadcast_thread.start()
 
     def run(self):
         print("running websocket server FOREVER") 
-        self.websocket_server.serve_forever()
+        while self.is_running():   
+            self.camera.wait_recording(1)
 
     def stop(self):
         self.camera.stop_recording()
         self.camera.close()
+        self.websocket_server.shutdown()
+        self.websocket_thread.join()
+        self.broadcast_thread.converter.stdout.close()
+        self.broadcast_thread.join()
 
 class StreamingWebSocket(WebSocket):
     def opened(self):
-        self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT))
+        self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT), binary=True)
 
 class BroadcastOutput(object):
     def __init__(self, camera):
@@ -79,3 +89,18 @@ class BroadcastOutput(object):
         print('Waiting for background conversion process to exit')
         self.converter.stdin.close()
         self.converter.wait()
+
+class BroadcastThread(Thread):
+    def __init__(self, converter, websocket_server):
+        super(BroadcastThread, self).__init__()
+        self.converter = converter
+        self.websocket_server = websocket_server
+
+    def run(self):
+        while True:
+            buf = self.converter.stdout.read(512)
+            if buf:
+                self.websocket_server.manager.broadcast(buf, binary=True)
+            elif self.converter.poll() is not None:
+                break
+        

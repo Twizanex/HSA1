@@ -12,6 +12,7 @@ HEIGHT = 288
 HTTP_PORT = 8082
 COLOR = u'#444'
 BGCOLOR = u'#333'
+WS_PORT = 8084
 ###########################################
 
 post_func = None
@@ -26,6 +27,9 @@ class HSAServer(ThreadedStream):
     def run(self):
         print("Starting HTTP Server on port {}".format(HTTP_PORT))
         self.http_server.serve_forever()
+
+    def stop(self):
+        self.http_server.shutdown()
 
 class StreamingHttpServer(HTTPServer):
     def __init__(self):

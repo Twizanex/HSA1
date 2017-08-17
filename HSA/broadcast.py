@@ -1,5 +1,3 @@
-import asyncio
-
 from atlasbuggy import ThreadedStream
 
 class HSABroadcast(ThreadedStream):

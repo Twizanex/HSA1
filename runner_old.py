@@ -224,5 +224,4 @@ def start_server():
             websocket_thread.join()
 
 if __name__ == '__main__':
-    robot.run(security_bot)
     start_server()
