@@ -1,5 +1,4 @@
 import io
-import asyncio
 from time import time, sleep
 from string import Template
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -16,15 +15,12 @@ BGCOLOR = u'#333'
 ###########################################
 
 post_func = None
-actuators = None
 
 class HSAServer(ThreadedStream):
-    def __init__(self, SecurityBot):
+    def __init__(self):
         super(HSAServer, self).__init__()
-        global post_func 
-        global actuators
-        post_func = self.post  # Ben - NONO, bad feels, don't assign class methods or variables to globals. Avoid globals
-        actuators = SecurityBot.actuators
+        global post_func
+        post_func = self.post
         self.http_server = StreamingHttpServer()
 
     def run(self):
@@ -45,6 +41,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         self.do_GET()
 
     def do_GET(self):
+        global post_func
         content_type = 'text/plain'
         content = 'success'
         if self.path == '/':
@@ -84,23 +81,22 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             print('SERVER: turn right')
 
         elif self.path == '/camera-up':
-            #post_func('camera-up')
-            actuators.camera_up()
+            post_func('camera-up')
             self.send_response(200)
             print('SERVER: camera up')
 
         elif self.path == '/camera-down':
-            actuators.camera_down()
+            post_func('camera-down')
             self.send_response(200)
             print('SERVER: camera down')
 
         elif self.path == '/camera-left':
-            actuators.camera_left()
+            post_func('camera-left')
             self.send_response(200)
             print('SERVER: camera left')
 
         elif self.path == '/camera-right':
-            actuators.camera_right()
+            post_func('camera-right')
             self.send_response(200)
             print('SERVER: camera right')
 
