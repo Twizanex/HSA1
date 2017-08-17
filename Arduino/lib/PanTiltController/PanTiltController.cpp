@@ -23,6 +23,17 @@ void PanTiltController::begin(){
   detach_servos();
 }
 
+void PanTiltController::pan_center(){
+  // pan Servo
+  if (_attached != -1)
+    attach_pan();
+
+  _servo_pos[0] = 90;
+  _pan_servo.write(90);
+  delay(100);
+  detach_servos();
+}
+
 void PanTiltController::pan_left()
 {
   // pan servo

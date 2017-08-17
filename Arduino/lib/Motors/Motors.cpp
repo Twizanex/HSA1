@@ -51,8 +51,8 @@ void Motors::_rightMotorForward(int power)
 {
   // this function makes the right motor go forward
   // set right motor to forward
-  digitalWrite(_right_pins[0], HIGH);
-  digitalWrite(_right_pins[1], LOW);
+  digitalWrite(_right_pins[0], LOW);
+  digitalWrite(_right_pins[1], HIGH);
   // set right motor speed in range 0~255
   analogWrite(_right_pins[2], power);
 }
@@ -61,8 +61,8 @@ void Motors::_rightMotorBackward(int power)
 {
   // this function makes the right motor go backward
   // set right motor to backward
-  digitalWrite(_right_pins[0], LOW);
-  digitalWrite(_right_pins[1], HIGH);
+  digitalWrite(_right_pins[0], HIGH);
+  digitalWrite(_right_pins[1], LOW);
   // set right  motor speed in range 0~255
   analogWrite(_right_pins[2], power);
 }
@@ -89,26 +89,30 @@ void Motors::robotBackward(int power)
 
 }
 
-void Motors::robotStop(int left_power, int right_power)
+void Motors::robotStop()
 {
-  while(left_power > 0 || right_power > 0){
-    if (left_power > 0){
-      left_power--;
-    }
-    if (right_power > 0){
-      right_power--;
-    }
-    analogWrite(_left_pins[2], left_power);
-    analogWrite(_right_pins[2], right_power);
-    delay(200);
-  }
+  // while(left_power > 0 || right_power > 0){
+  //   if (left_power > 0){
+  //     left_power--;
+  //   }
+  //   if (right_power > 0){
+  //     right_power--;
+  //   }
+  //   analogWrite(_left_pins[2], left_power);
+  //   analogWrite(_right_pins[2], right_power);
+  //   delay(200);
+  // }
+  analogWrite(_left_pins[2], 0);
+  analogWrite(_right_pins[2], 0);
+  _rightMotorStop();
+  _leftMotorStop();
 }
 
 void Motors::forward_backward_demo()
 {
   robotForward(200);
   delay(1000);
-  robotStop(200, 200);
+  robotStop();
   delay(1000);
   robotBackward(200);
   delay(1000);
@@ -116,26 +120,34 @@ void Motors::forward_backward_demo()
 
 void Motors::move_forward()
 {
-  robotForward(200);
-  delay(500);
-  robotStop(200, 200);
-  delay(500);
+  robotForward(10);
+  delay(250);
+  robotStop();
+  delay(250);
 }
 
 void Motors::move_backward()
 {
-  robotBackward(200);
-  delay(500);
-  robotStop(200, 200);
-  delay(500);
+  robotBackward(10);
+  delay(250);
+  robotStop();
+  delay(250);
 }
 
 void Motors::turn_left()
 {
-  delay(500);
+  _rightMotorForward(10);
+  _leftMotorBackward(10);
+  delay(100);
+  robotStop();
+  delay(250);
 }
 
 void Motors::turn_right()
 {
-  delay(500);
+  _leftMotorForward(10);
+  _rightMotorBackward(10);
+  delay(100);
+  robotStop();
+  delay(250);
 }

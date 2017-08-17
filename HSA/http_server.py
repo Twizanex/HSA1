@@ -100,6 +100,11 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             print('SERVER: camera right')
 
+        elif self.path == '/camera-center':
+            post_func('camera-center')
+            self.send_response(200)
+            print('SERVER: camera-center')
+
         else:
             self.send_error(404, 'File not found')
             return

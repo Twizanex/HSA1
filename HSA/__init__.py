@@ -53,6 +53,9 @@ class SecurityBot(SerialStream):
                 elif message == 'camera-right':
                     self.actuators.camera_right()
                     print("camera goin right")
+                elif message == 'camera-center':
+                    self.actuators.camera_center()
+                    print("camera centerin")
                 self.server_feed.task_done()
         await asyncio.sleep(0.0)
 

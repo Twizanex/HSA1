@@ -8,7 +8,7 @@ public:
   void turn_right();
   void robotForward(int power);
   void robotBackward(int power);
-  void robotStop(int left_power, int right_power);
+  void robotStop();
   // demos
   void forward_backward_demo();
 

@@ -8,8 +8,8 @@ int in1 = 9;
 int in2 = 8;
 // RIGHT MOTOR PINS
 int enB = 11;
-int in3 = 13;
-int in4 = 12;
+int in3 = 7;
+int in4 = 6;
 // SERVO PINS
 int pan_pin = A0;
 int tilt_pin = A1;
@@ -26,7 +26,7 @@ uint32_t timer = millis();
 void setup()
 {
  // initialize robot and wheel actuators
- // wheel_actuators.begin();
+ wheel_actuators.begin();
  robot.begin();
  camera_servos.begin();
 }
@@ -74,6 +74,9 @@ void loop()
         }
         else if (command.charAt(1) == 'r'){
           camera_servos.pan_right();
+        }
+        else if (command.charAt(1) == 'c'){
+          camera_servos.pan_center();
         }
         camera_servos.detach_servos();
       }

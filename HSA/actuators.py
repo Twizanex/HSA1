@@ -29,6 +29,10 @@ class Actuators(SerialObject):
         print("CAMERA RIGHT BOSS")
         self.send('cr')
 
+    def camera_center(self):
+        print("CAMERA CENTERED BOSSO")
+        self.send('cc')
+
     def robot_forward(self):
         self.send('rf')
 

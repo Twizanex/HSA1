@@ -16,6 +16,7 @@ public:
   void attach_pan();
   void attach_tilt();
   void detach_servos();
+  void pan_center();
 private:
   Servo _pan_servo;
   Servo _tilt_servo;
