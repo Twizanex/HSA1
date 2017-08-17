@@ -16,10 +16,10 @@ PanTiltController::PanTiltController(int pan_pin, int tilt_pin)
 void PanTiltController::begin(){
   attach_pan();
   _pan_servo.write(_servo_pos[0]);
-  delay(15);
+  delay(DELAY_TIME);
   attach_tilt();
   _tilt_servo.write(_servo_pos[1]);
-  delay(15);
+  delay(DELAY_TIME);
   detach_servos();
 }
 
@@ -36,7 +36,7 @@ void PanTiltController::pan_left()
   }
   _servo_pos[0] = pos;
   _pan_servo.write(pos);
-  delay(15);
+  delay(DELAY_TIME);
   detach_servos();
 }
 
@@ -53,7 +53,7 @@ void PanTiltController::pan_right()
   }
   _servo_pos[0] = pos;
   _pan_servo.write(pos);
-  delay(15);
+  delay(DELAY_TIME);
   detach_servos();
 }
 
@@ -70,7 +70,7 @@ void PanTiltController::tilt_down()
   }
   _servo_pos[1] = pos;
   _tilt_servo.write(pos);
-  delay(15);
+  delay(DELAY_TIME);
   detach_servos();
 }
 
@@ -88,7 +88,7 @@ void PanTiltController::tilt_up()
   }
   _servo_pos[1] = pos;
   _tilt_servo.write(pos);
-  delay(15);
+  delay(DELAY_TIME);
   detach_servos();
 }
 

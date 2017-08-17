@@ -3,6 +3,7 @@
 
 #define SERVO_MIN 0
 #define SERVO_MAX 170
+#define DELAY_TIME 30
 
 class PanTiltController {
 public:

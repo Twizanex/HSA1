@@ -33,13 +33,13 @@ void setup()
 
 void loop()
 {
-  if (!robot.isPaused()){
-    if (timer > millis())  timer = millis();  // reset the timer if there is overflow
-      // if ((millis() - timer) > 500) {  // every 0.5 seconds, print the current time in milliseconds
-      //   Serial.print(millis());
-      //   Serial.print('\n');
-      // }
-  }
+  // if (!robot.isPaused()){
+  //   if (timer > millis())  timer = millis();  // reset the timer if there is overflow
+  //     // if ((millis() - timer) > 500) {  // every 0.5 seconds, print the current time in milliseconds
+  //     //   Serial.print(millis());
+  //     //   Serial.print('\n');
+  //     // }
+  // }
 
   while (robot.available()){
     int status = robot.readSerial();
