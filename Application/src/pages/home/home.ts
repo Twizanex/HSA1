@@ -115,4 +115,13 @@ export class HomePage {
     var client = new WebSocket( 'ws://68.230.95.141:8084/' );
     var player = new jsmpeg(client, {canvas:canvas});
 }
+
+doRefresh(refresher) {
+   console.log('Begin async operation', refresher);
+   this.ngAfterViewInit();
+   setTimeout(() => {
+     console.log('Async operation has ended');
+     refresher.complete();
+   }, 2000);
+ }
 }
