@@ -14,19 +14,19 @@
     <canvas id="videoCanvas" width="384" height ="288" style="border:1px solid #000000;"></canvas>
   </ion-row>
 
-    <ion-row offset-1>
-      <ion-col>
-        <ion-badge color="secondary">Movement</ion-badge>
-      </ion-col>
-      <ion-col offset-2>
-        <ion-badge color="secondary">Camera</ion-badge>
-      </ion-col>
-    </ion-row>
+  <ion-row offset-1>
+    <ion-col>
+      <ion-badge color="secondary">Movement</ion-badge>
+    </ion-col>
+    <ion-col offset-2>
+      <ion-badge color="secondary">Camera</ion-badge>
+    </ion-col>
+  </ion-row>
 
-<div class="row">
+  <div class="row">
 
   <div class=col>
-<!--First Set of Arrows Begin-->
+    <!--First Set of Arrows Begin-->
     <div class="row">
 
       <div class="col-33">
@@ -146,6 +146,14 @@
 
 </div>
 <!-- 2nd Set End-->
+</div>
+<div class="row">
+  <div class="col-50">
+    <button ion-button (click)="camCenter()">CENTER CAMERA</button>
+  </div>
+  <div class='col-50'>
+    <button ion-button (click)="robotRestart()">RESTART ROBOT</button>
+  </div>
 </div>
   </ion-grid>
 
