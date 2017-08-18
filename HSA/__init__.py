@@ -5,6 +5,7 @@ from .websocket import HSAWebSocket
 
 import time
 import asyncio
+import os
 
 from atlasbuggy.subscriptions import Feed
 from atlasbuggy.serial import SerialStream
@@ -52,6 +53,8 @@ class SecurityBot(SerialStream):
             elif message == 'camera-center':
                 self.actuators.camera_center()
                 print("camera centerin")
+            elif message == 'reboot':
+                os.system('sudo reboot')
             self.server_feed.task_done()
         await asyncio.sleep(0.0)
 
@@ -60,4 +63,4 @@ class SecurityBot(SerialStream):
           if self.pipeline_results is not None:
               print("got a message")
               self.pipeline_results = None
-          time.sleep(0.1)  
+          time.sleep(0.1)

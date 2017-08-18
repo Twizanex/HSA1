@@ -109,6 +109,11 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             print('SERVER: camera-center')
 
+        elif self.path == '/reboot':
+            post_func('reboot')
+            self.send_response(200)
+            print('SERVER: rebooting')    
+
         else:
             self.send_error(404, 'File not found')
             return
