@@ -9,70 +9,144 @@
 
 <ion-content scroll="false">
 
-<canvas id="videoCanvas" width="384" height ="288" style="border:1px solid #000000;"></canvas>
+<ion-grid>
+  <ion-row>
+    <canvas id="videoCanvas" width="384" height ="288" style="border:1px solid #000000;"></canvas>
+  </ion-row>
 
-  <ion-grid>
     <ion-row offset-1>
       <ion-col>
         <ion-badge color="secondary">Movement</ion-badge>
       </ion-col>
-      <ion-col offset-1>
+      <ion-col offset-2>
         <ion-badge color="secondary">Camera</ion-badge>
       </ion-col>
     </ion-row>
 
-<!--row1-->
-    <ion-row offset-1>
-      <ion-col col-1 offset-1>
+<div class="row">
+
+  <div class=col>
+<!--First Set of Arrows Begin-->
+    <div class="row">
+
+      <div class="col-33">
+        <div style="width:45px;height:40px;border:0px solid #000;"></div>
+      </div>
+
+      <div class="col-33">
         <button ion-button  icon-only (click)="forwardRequest()">
           <ion-icon name="arrow-round-up"></ion-icon>
         </button>
-      </ion-col>
-      <!--2nd Up Arrow  -->
-      <ion-col offset-5>
-        <button ion-button  icon-only (click)="camUp()">
-          <ion-icon name="arrow-round-up"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-<!--row2-->
-      <ion-row offset-1>
-      <ion-col col-1 offset-0>
+      </div>
+
+      <div class="col-33">
+        <div style="width:40px;height:40px;border:0px solid #000;"></div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-33">
         <button ion-button  icon-only (click)="leftRequest()">
           <ion-icon name="arrow-round-back"></ion-icon>
         </button>
-      </ion-col>
-      <ion-col col-1 offset-1>
+      </div>
+
+      <div class="col-33">
+        <div style="width:42px;height:40px;border:0px solid #000;"></div>
+      </div>
+
+      <div class="col-33">
         <button ion-button  icon-only (click)="rightRequest()">
           <ion-icon name="arrow-round-forward"></ion-icon>
         </button>
-      </ion-col>
-      <!--2nd side arrows-->
-      <ion-col col-1 offset-3>
-        <button ion-button  icon-only (click)="camLeft()">
-          <ion-icon name="arrow-round-back"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col col-1 offset-1>
-        <button ion-button  icon-only (click)="camRight()">
-          <ion-icon name="arrow-round-forward"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-<!--row3-->
-    <ion-row offset-1>
-      <ion-col col-5 offset-1>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-33">
+        <div style="width:45px;height:40px;border:0px solid #000;"></div>
+      </div>
+
+      <div class="col-33">
         <button ion-button  icon-only (click)="backRequest()">
           <ion-icon name="arrow-round-down"></ion-icon>
         </button>
-      </ion-col>
-      <!--2nd Down Arrow-->
-      <ion-col col-5 offset-1 (click)="camDown()">
-        <button ion-button  icon-only>
-          <ion-icon name="arrow-round-down"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
+      </div>
+
+      <div class="col-33">
+        <div style="width:40px;height:40px;border:0px solid #000;"></div>
+      </div>
+
+    </div>
+
+  </div>
+<!-- First Set of Arrows End -->
+
+<div class=col>
+<!-- 2nd Set Start -->
+<div class="row">
+
+  <div class="col-33">
+    <div style="width:45px;height:40px;border:0px solid #000;"></div>
+  </div>
+
+  <div class="col-33">
+    <button ion-button  icon-only (click)="camUp()">
+      <ion-icon name="arrow-round-up"></ion-icon>
+    </button>
+  </div>
+
+  <div class="col-33">
+    <div style="width:40px;height:40px;border:0px solid #000;"></div>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-33">
+    <button ion-button  icon-only (click)="camLeft()">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </button>
+  </div>
+
+  <div class="col-33">
+    <div style="width:42px;height:40px;border:0px solid #000;"></div>
+  </div>
+
+  <div class="col-33">
+    <button ion-button  icon-only (click)="camRight()">
+      <ion-icon name="arrow-round-forward"></ion-icon>
+    </button>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-33">
+    <div style="width:45px;height:40px;border:0px solid #000;"></div>
+  </div>
+
+  <div class="col-33">
+    <button ion-button  icon-only (click)="camDown()">
+      <ion-icon name="arrow-round-down"></ion-icon>
+    </button>
+  </div>
+
+  <div class="col-33">
+    <div style="width:40px;height:40px;border:0px solid #000;"></div>
+  </div>
+
+</div>
+
+</div>
+<!-- 2nd Set End-->
+</div>
   </ion-grid>
 
 </ion-content>
